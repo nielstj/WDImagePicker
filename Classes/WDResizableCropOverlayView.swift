@@ -29,7 +29,9 @@ internal class WDResizableCropOverlayView: WDImageCropOverlayView {
 
     override var frame: CGRect {
         didSet {
-            let toolbarSize = CGFloat(UI_USER_INTERFACE_IDIOM() == .Pad ? 0 : 54)
+            /* The UI_USER_INTERFACE_IDIOM() function is provided for use when deploying to a version of the iOS less than 3.2. If the earliest version of iPhone/iOS that you will be deploying for is 3.2 or greater, you may use -[UIDevice userInterfaceIdiom] directly.
+            */
+            let toolbarSize = CGFloat(UIDevice.currentDevice().userInterfaceIdiom == .Pad ? 0 : 54)
             let width = self.bounds.size.width
             let height = self.bounds.size.height
 
