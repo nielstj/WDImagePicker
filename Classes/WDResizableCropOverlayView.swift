@@ -54,7 +54,7 @@ internal class WDResizableCropOverlayView: WDImageCropOverlayView {
         self.addContentViews()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -62,7 +62,7 @@ internal class WDResizableCropOverlayView: WDImageCropOverlayView {
         super.init(frame: frame)
     }
 
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first as? UITouch {
             let touchPoint = touch.locationInView(cropBorderView)
 
@@ -73,7 +73,7 @@ internal class WDResizableCropOverlayView: WDImageCropOverlayView {
         }
     }
 
-    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first as? UITouch {
             if resizingEnabled! {
                 self.resizeWithTouchPoint(touch.locationInView(self.superview))
