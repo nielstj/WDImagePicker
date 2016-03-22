@@ -29,7 +29,9 @@ internal class WDResizableCropOverlayView: WDImageCropOverlayView {
 
     override var frame: CGRect {
         didSet {
-            let toolbarSize = CGFloat(UI_USER_INTERFACE_IDIOM() == .Pad ? 0 : 54)
+            /* The UI_USER_INTERFACE_IDIOM() function is provided for use when deploying to a version of the iOS less than 3.2. If the earliest version of iPhone/iOS that you will be deploying for is 3.2 or greater, you may use -[UIDevice userInterfaceIdiom] directly.
+            */
+            let toolbarSize = CGFloat(UIDevice.currentDevice().userInterfaceIdiom == .Pad ? 0 : 54)
             let width = self.bounds.size.width
             let height = self.bounds.size.height
 
@@ -54,7 +56,7 @@ internal class WDResizableCropOverlayView: WDImageCropOverlayView {
         self.addContentViews()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -62,7 +64,7 @@ internal class WDResizableCropOverlayView: WDImageCropOverlayView {
         super.init(frame: frame)
     }
 
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first as? UITouch {
             let touchPoint = touch.locationInView(cropBorderView)
 
@@ -73,7 +75,7 @@ internal class WDResizableCropOverlayView: WDImageCropOverlayView {
         }
     }
 
-    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first as? UITouch {
             if resizingEnabled! {
                 self.resizeWithTouchPoint(touch.locationInView(self.superview))
@@ -92,7 +94,7 @@ internal class WDResizableCropOverlayView: WDImageCropOverlayView {
     }
 
     private func addContentViews() {
-        let toolbarSize = CGFloat(UI_USER_INTERFACE_IDIOM() == .Pad ? 0 : 54)
+        let toolbarSize = CGFloat(UIDevice.currentDevice().userInterfaceIdiom == .Pad ? 0 : 54)
         let width = self.bounds.size.width
         let height = self.bounds.size.height
 
@@ -181,7 +183,7 @@ internal class WDResizableCropOverlayView: WDImageCropOverlayView {
     }
 
     private func preventBorderFrameFromGettingTooSmallOrTooBig(frame: CGRect) -> CGRect {
-        let toolbarSize = CGFloat(UI_USER_INTERFACE_IDIOM() == .Pad ? 0 : 54)
+        let toolbarSize = CGFloat(UIDevice.currentDevice().userInterfaceIdiom == .Pad ? 0 : 54)
         var newFrame = frame
 
         if newFrame.size.width < 64 {

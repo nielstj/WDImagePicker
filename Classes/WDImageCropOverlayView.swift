@@ -20,7 +20,7 @@ internal class WDImageCropOverlayView: UIView {
         self.userInteractionEnabled = true
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
         self.backgroundColor = UIColor.clearColor()
@@ -29,7 +29,7 @@ internal class WDImageCropOverlayView: UIView {
 
     override func drawRect(rect: CGRect) {
 
-        let toolbarSize = CGFloat(UI_USER_INTERFACE_IDIOM() == .Pad ? 0 : 54)
+        let toolbarSize = CGFloat(UIDevice.currentDevice().userInterfaceIdiom == .Pad ? 0 : 54)
 
         let width = CGRectGetWidth(self.frame)
         let height = CGRectGetHeight(self.frame) - toolbarSize
