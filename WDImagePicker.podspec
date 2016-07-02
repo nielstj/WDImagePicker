@@ -8,6 +8,6 @@ Pod::Spec.new do |s|
   s.author = { "Wu Di" => "justwudi@gmail.com" }
   s.platform = :ios
   s.ios.deployment_target = '8.0'
-  s.source = { :git => 'https://github.com/justwudi/WDImagePicker.git', :tag => '0.1' }
+  s.source = { :git => 'https://github.com/Holmusk/WDImagePicker.git', :branch => 'swift3' }
   s.source_files = "Classes/*.swift"
 end
