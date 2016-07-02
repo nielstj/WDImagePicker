@@ -12,9 +12,9 @@ import Photos
 
 
 @objc public protocol WDImagePickerDelegate {
-    optional func imagePicker(imagePicker: WDImagePicker, pickedImage: UIImage)
-    optional func imagePickerDidCancel(imagePicker: WDImagePicker)
-    optional func imagePicker(imagePicker: WDImagePicker, pickedImage:  UIImage, info : [String : AnyObject]?)
+    @objc optional func imagePicker(_ imagePicker: WDImagePicker, pickedImage: UIImage)
+    @objc optional func imagePickerDidCancel(_ imagePicker: WDImagePicker)
+    @objc optional func imagePicker(_ imagePicker: WDImagePicker, pickedImage:  UIImage, info : [String : AnyObject]?)
 }
 
 @objc public class WDImagePicker: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate, WDImageCropControllerDelegate {
@@ -33,17 +33,17 @@ import Photos
     override public init() {
         super.init()
         
-        self.cropSize = CGSizeMake(320, 320)
+        self.cropSize = CGSize(width: 320, height: 320)
         _imagePickerController = UIImagePickerController()
         _imagePickerController.delegate = self
-        _imagePickerController.sourceType = .PhotoLibrary
+        _imagePickerController.sourceType = .photoLibrary
     }
     
     private func hideController() {
-        self._imagePickerController.dismissViewControllerAnimated(true, completion: nil)
+        self._imagePickerController.dismiss(animated: true, completion: nil)
     }
     
-    public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         if self.delegate?.imagePickerDidCancel != nil {
             self.delegate?.imagePickerDidCancel!(self)
         } else {
@@ -51,13 +51,14 @@ import Photos
         }
     }
     
-    public func imagePickerController(picker: UIImagePickerController, var didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        var info = info
         
-        let url = info[UIImagePickerControllerReferenceURL] as! NSURL
+        let url = info[UIImagePickerControllerReferenceURL] as! URL
         
-        let fetchResult = PHAsset.fetchAssetsWithALAssetURLs([url], options: nil)
+        let fetchResult = PHAsset.fetchAssets(withALAssetURLs: [url], options: nil)
         
-        let lastImageAsset = fetchResult.lastObject as! PHAsset
+        let lastImageAsset = fetchResult.lastObject! as PHAsset
         let coordinate = lastImageAsset.location
         let date = lastImageAsset.creationDate
         
@@ -80,7 +81,7 @@ import Photos
         picker.pushViewController(cropController, animated: true)
     }
     
-    func imageCropController(imageCropController: WDImageCropViewController, didFinishWithCroppedImage croppedImage: UIImage) {
+    func imageCropController(_ imageCropController: WDImageCropViewController, didFinishWithCroppedImage croppedImage: UIImage) {
         self.delegate?.imagePicker?(self, pickedImage: croppedImage, info : info)
     }
 }
