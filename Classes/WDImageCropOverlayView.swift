@@ -16,14 +16,14 @@ internal class WDImageCropOverlayView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.backgroundColor = UIColor.clear()
+        self.backgroundColor = UIColor.clear
         self.isUserInteractionEnabled = true
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
-        self.backgroundColor = UIColor.clear()
+        self.backgroundColor = UIColor.clear
         self.isUserInteractionEnabled = true
     }
 
@@ -47,7 +47,7 @@ internal class WDImageCropOverlayView: UIView {
             height: self.cropSize.height + 4))
 
         // fill inner rect
-        UIColor.clear().set()
+        UIColor.clear.set()
         UIRectFill(CGRect(x: widthSpan, y: heightSpan, width: self.cropSize.width, height: self.cropSize.height))
     }
 }

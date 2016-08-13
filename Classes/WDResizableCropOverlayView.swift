@@ -87,7 +87,7 @@ internal class WDResizableCropOverlayView: WDImageCropOverlayView {
         UIRectFill(self.bounds)
 
         //fill inner rect
-        UIColor.clear().set()
+        UIColor.clear.set()
         UIRectFill(self.contentView.frame)
     }
 
@@ -101,7 +101,7 @@ internal class WDResizableCropOverlayView: WDImageCropOverlayView {
             y: (height - toolbarSize - initialContentSize.height) / 2,
             width: initialContentSize.width,
             height: initialContentSize.height))
-        contentView.backgroundColor = UIColor.clear()
+        contentView.backgroundColor = UIColor.clear
         self.cropSize = contentView.frame.size
         self.addSubview(contentView)
 

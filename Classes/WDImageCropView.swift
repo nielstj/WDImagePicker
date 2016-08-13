@@ -86,19 +86,19 @@ internal class WDImageCropView: UIView, UIScrollViewDelegate {
         super.init(frame: frame)
 
         self.isUserInteractionEnabled = true
-        self.backgroundColor = UIColor.black()
+        self.backgroundColor = UIColor.black
         self.scrollView = ScrollView(frame: frame)
         self.scrollView.showsHorizontalScrollIndicator = false
         self.scrollView.showsVerticalScrollIndicator = false
         self.scrollView.delegate = self
         self.scrollView.clipsToBounds = false
         self.scrollView.decelerationRate = 0
-        self.scrollView.backgroundColor = UIColor.clear()
+        self.scrollView.backgroundColor = UIColor.clear
         self.addSubview(self.scrollView)
 
         self.imageView = UIImageView(frame: self.scrollView.frame)
         self.imageView.contentMode = .scaleAspectFit
-        self.imageView.backgroundColor = UIColor.black()
+        self.imageView.backgroundColor = UIColor.black
         self.scrollView.addSubview(self.imageView)
 
         self.scrollView.minimumZoomScale =
@@ -184,7 +184,7 @@ internal class WDImageCropView: UIView, UIScrollViewDelegate {
 
         // transform visible rect to image orientation
         let rectTransform = orientationTransformedRectOfImage(imageToCrop!)
-        visibleRect = visibleRect.apply(transform: rectTransform);
+        visibleRect = visibleRect.applying(rectTransform);
 
         // finally crop image
         let imageRef = imageToCrop!.cgImage?.cropping(to: visibleRect)
@@ -241,15 +241,15 @@ internal class WDImageCropView: UIView, UIScrollViewDelegate {
 
         switch image.imageOrientation {
         case .left:
-            rectTransform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2)).translateBy(x: 0, y: -image.size.height)
+            rectTransform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2)).translatedBy(x: 0, y: -image.size.height)
         case .right:
-            rectTransform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2)).translateBy(x: -image.size.width, y: 0)
+            rectTransform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2)).translatedBy(x: -image.size.width, y: 0)
         case .down:
-            rectTransform = CGAffineTransform(rotationAngle: CGFloat(-M_PI)).translateBy(x: -image.size.width, y: -image.size.height)
+            rectTransform = CGAffineTransform(rotationAngle: CGFloat(-M_PI)).translatedBy(x: -image.size.width, y: -image.size.height)
         default:
             rectTransform = CGAffineTransform.identity
         }
 
-        return rectTransform.scaleBy(x: image.scale, y: image.scale)
+        return rectTransform.scaledBy(x: image.scale, y: image.scale)
     }
 }

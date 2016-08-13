@@ -134,7 +134,7 @@ internal class WDImageCropViewController: UIViewController {
             let info = UILabel(frame: CGRect.zero)
             info.text = ""
             info.textColor = UIColor(red: 0.173, green: 0.173, blue: 0.173, alpha: 1)
-            info.backgroundColor = UIColor.clear()
+            info.backgroundColor = UIColor.clear
             info.shadowColor = UIColor(red: 0.827, green: 0.731, blue: 0.839, alpha: 1)
             info.shadowOffset = CGSize(width: 0, height: 1)
             info.font = UIFont.boldSystemFont(ofSize: 18)

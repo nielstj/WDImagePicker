@@ -15,13 +15,13 @@ internal class WDCropBorderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.backgroundColor = UIColor.clear()
+        self.backgroundColor = UIColor.clear
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
-        self.backgroundColor = UIColor.clear()
+        self.backgroundColor = UIColor.clear
     }
 
     override func draw(_ rect: CGRect) {

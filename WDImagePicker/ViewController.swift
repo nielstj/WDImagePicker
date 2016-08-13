@@ -45,7 +45,7 @@ class ViewController: UIViewController, WDImagePickerDelegate, UIImagePickerCont
 
         self.imageView = UIImageView(frame: CGRect.zero)
         self.imageView.contentMode = .scaleAspectFit
-        self.imageView.backgroundColor = UIColor.gray()
+        self.imageView.backgroundColor = UIColor.gray
         self.view.addSubview(self.imageView)
     }
 
