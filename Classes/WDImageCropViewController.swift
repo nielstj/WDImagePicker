@@ -105,12 +105,7 @@ internal class WDImageCropViewController: UIViewController {
 
         let context = UIGraphicsGetCurrentContext()
         let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let gradient = CGGradient(colorComponentsSpace: colorSpace, components: components, locations: nil, count: 2)
-
-        //CGContextDrawLinearGradient(context, gradient, CGPointMake(0, 0), CGPointMake(0, 54),
-         //   .zero)
-
-        
+        let gradient = CGGradient(colorSpace: colorSpace, colorComponents: components, locations: nil, count: 2)
         // MAKE SURE THE CGDRAWING OPTIONS IS CORRECT
         context?.drawLinearGradient(gradient!, start: CGPoint(x: 0,y: 0), end: CGPoint(x: 0, y: 54), options: .drawsBeforeStartLocation)
         

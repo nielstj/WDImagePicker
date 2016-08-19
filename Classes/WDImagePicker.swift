@@ -14,7 +14,7 @@ import Photos
 @objc public protocol WDImagePickerDelegate {
     @objc optional func imagePicker(_ imagePicker: WDImagePicker, pickedImage: UIImage)
     @objc optional func imagePickerDidCancel(_ imagePicker: WDImagePicker)
-    @objc optional func imagePicker(_ imagePicker: WDImagePicker, pickedImage:  UIImage, info : [String : AnyObject]?)
+    @objc optional func imagePicker(_ imagePicker: WDImagePicker, pickedImage:  UIImage, info : [String : Any]?)
 }
 
 @objc public class WDImagePicker: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate, WDImageCropControllerDelegate {
@@ -28,7 +28,7 @@ import Photos
         return _imagePickerController
     }
     
-    private var info : [String : AnyObject]?
+    private var info:[String : Any] = [:]
     
     override public init() {
         super.init()
@@ -51,9 +51,9 @@ import Photos
         }
     }
     
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        var info = info
-        
+    
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    
         let url = info[UIImagePickerControllerReferenceURL] as! URL
         
         let fetchResult = PHAsset.fetchAssets(withALAssetURLs: [url], options: nil)
@@ -62,13 +62,11 @@ import Photos
         let coordinate = lastImageAsset.location
         let date = lastImageAsset.creationDate
         
-        self.info = [String : AnyObject]()
-        
         if coordinate != nil {
-            self.info!["location"] = coordinate
+            self.info["location"] = coordinate
         }
         if date != nil {
-            self.info!["date"] = date
+            self.info["date"] = date
         }
         
         
