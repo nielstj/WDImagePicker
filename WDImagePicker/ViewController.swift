@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class ViewController: UIViewController, WDImagePickerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -106,11 +107,15 @@ class ViewController: UIViewController, WDImagePickerDelegate, UIImagePickerCont
         }
     }
 
-    func imagePicker(_ imagePicker: WDImagePicker, pickedImage: UIImage) {
+    func imagePicker(_ imagePicker: WDImagePicker, pickedImage: UIImage, imageAsset: PHAsset?) {
         self.imageView.image = pickedImage
         self.hideImagePicker()
     }
-
+    
+    public func imagePickerDidCancel(_ imagePicker: WDImagePicker) {
+        
+    }
+    
     func hideImagePicker() {
         if UI_USER_INTERFACE_IDIOM() == .pad {
             self.popoverController.dismiss(animated: true)

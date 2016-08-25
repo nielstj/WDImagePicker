@@ -6,23 +6,24 @@
 //  Copyright (c) 2015 Wu Di. All rights reserved.
 //
 
+import Photos
 import UIKit
 import AssetsLibrary
 import Photos
 
 
 @objc public protocol WDImagePickerDelegate {
-    @objc optional func imagePicker(_ imagePicker: WDImagePicker, pickedImage: UIImage)
-    @objc optional func imagePickerDidCancel(_ imagePicker: WDImagePicker)
-    @objc optional func imagePicker(_ imagePicker: WDImagePicker, pickedImage:  UIImage, info : [String : Any]?)
+    func imagePicker(_ imagePicker: WDImagePicker, pickedImage: UIImage, imageAsset:PHAsset?)
+    func imagePickerDidCancel(_ imagePicker: WDImagePicker)
 }
 
-@objc public class WDImagePicker: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate, WDImageCropControllerDelegate {
+public class WDImagePicker: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate, WDImageCropControllerDelegate {
     public var delegate: WDImagePickerDelegate?
     public var cropSize: CGSize!
     public var resizableCropArea = false
     
     private var _imagePickerController: UIImagePickerController!
+    private var imageAsset:PHAsset!
     
     public var imagePickerController: UIImagePickerController {
         return _imagePickerController
@@ -44,35 +45,18 @@ import Photos
     }
     
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        if self.delegate?.imagePickerDidCancel != nil {
-            self.delegate?.imagePickerDidCancel!(self)
-        } else {
-            self.hideController()
-        }
+        self.delegate?.imagePickerDidCancel(self)
     }
     
-    
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-    
-        let url = info[UIImagePickerControllerReferenceURL] as! URL
-        
-        let fetchResult = PHAsset.fetchAssets(withALAssetURLs: [url], options: nil)
-        
-        let lastImageAsset = fetchResult.lastObject! as PHAsset
-        let coordinate = lastImageAsset.location
-        let date = lastImageAsset.creationDate
-        
-        if coordinate != nil {
-            self.info["location"] = coordinate
-        }
-        if date != nil {
-            self.info["date"] = date
-        }
-        
-        
-        
+    @nonobjc public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         let cropController = WDImageCropViewController()
         cropController.sourceImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        
+        PHAsset.fetchAssets(withALAssetURLs: [info[UIImagePickerControllerReferenceURL] as! URL], options: nil).enumerateObjects(options: .concurrent) { (result, index, stop) in
+            NSLog("result: \(result) - \(index)")
+            self.imageAsset = result
+        }
+        
         cropController.resizableCropArea = self.resizableCropArea
         cropController.cropSize = self.cropSize
         cropController.delegate = self
@@ -80,6 +64,6 @@ import Photos
     }
     
     func imageCropController(_ imageCropController: WDImageCropViewController, didFinishWithCroppedImage croppedImage: UIImage) {
-        self.delegate?.imagePicker?(self, pickedImage: croppedImage, info : info)
+        self.delegate?.imagePicker(self, pickedImage: croppedImage, imageAsset: imageAsset)
     }
 }
